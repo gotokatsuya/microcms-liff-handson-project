@@ -1,0 +1,29 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:latest
+    volumes: 
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 8000:8000
+    depends_on:
+      - api
+      - web
+
+  api:
+    image: ruby:2.5
+    working_dir: /api
+    volumes:
+      - ./api/:/api
+    environment: 
+      - RACK_ENV=development
+    command: bash -c 'bundle install && bundle exec rackup -s Puma --host 0.0.0.0'
+
+  web:
+    image: node:12
+    working_dir: /web
+    volumes:
+      - ./web/:/web
+    environment: 
+      - HOST=0.0.0.0
+    command: bash -c 'npm install && npm run dev'

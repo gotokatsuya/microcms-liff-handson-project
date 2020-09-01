@@ -1,0 +1,23 @@
+{
+  "name": "web",
+  "scripts": {
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "generate": "nuxt-ts generate",
+    "start": "nuxt-ts start",
+    "lint": "eslint --ext .ts,.js,.vue ."
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.4",
+    "@nuxt/typescript-build": "^2.0.2",
+    "@nuxtjs/eslint-config-typescript": "^3.0.0",
+    "eslint": "^7.8.0"
+  },
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^1.0.0",
+    "@nuxtjs/axios": "^5.12.2",
+    "@vue/composition-api": "^1.0.0-beta.11",
+    "nuxt": "^2.14.4",
+    "vuex-module-decorators": "^0.17.0"
+  }
+}
