@@ -1,27 +1,22 @@
 <template>
-  <div>
-    <div v-for="c in contents" :key="c.id">
-      <div>{{ c.content }}</div>
-    </div>
-  </div>
+  <Contents />
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from '@vue/composition-api'
-import { contentsStore } from '~/store'
+import Vue from 'vue'
+import Contents from '~/components/contents.vue'
+import { lineStore, contentStore } from '~/store'
 
-export default defineComponent({
-  setup () {
-    onMounted(async () => {
-      try {
-        await contentsStore.fetchContents()
-      } catch (e) {
-        console.error(e)
-      }
-    })
-    const contents = computed(() => contentsStore.contents)
-    return {
-      contents
+export default Vue.extend({
+  components: {
+    Contents
+  },
+  async fetch () {
+    try {
+      await lineStore.init()
+      await contentStore.fetch()
+    } catch (e) {
+      console.error(e)
     }
   }
 })

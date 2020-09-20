@@ -13,5 +13,5 @@ automatic_scaling:
   max_pending_latency: automatic
   max_concurrent_requests: 20
 
-env_variables:
-  RACK_ENV: production
+includes:
+  - app-secret-env.yaml

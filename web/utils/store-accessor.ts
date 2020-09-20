@@ -2,12 +2,15 @@
 /* eslint-disable import/no-mutable-exports */
 import { Store } from 'vuex'
 import { getModule } from 'vuex-module-decorators'
-import Contents from '~/store/contents'
+import LineStore from '~/store/line'
+import ContentStore from '~/store/content'
 
-let contentsStore: Contents
+let lineStore: LineStore
+let contentStore: ContentStore
 
 function initialiseStores(store: Store<any>): void {
-  contentsStore = getModule(Contents, store)
+  lineStore = getModule(LineStore, store)
+  contentStore = getModule(ContentStore, store)
 }
 
-export { initialiseStores, contentsStore }
+export { initialiseStores, lineStore, contentStore }

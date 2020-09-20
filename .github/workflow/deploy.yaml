@@ -1,0 +1,30 @@
+name: Deploy workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "292.0.0"
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - uses: actions/setup-node@master
+        with:
+          node-version: "12.x"
+      - uses: actions/setup-ruby@master
+        with:
+          ruby-version: "2.5.x"
+      - uses: actions/checkout@master
+      - name: Decrypt secret
+        run: make secret-decrypt
+        env:
+          SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
+      - name: Deploy apps
+        run: make deploy
+ 

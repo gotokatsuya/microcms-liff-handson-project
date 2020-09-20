@@ -25,5 +25,5 @@ handlers:
     script: auto
     secure: always
 
-env_variables:
-  HOST: '0.0.0.0'
+includes:
+  - app-secret-env.yaml
