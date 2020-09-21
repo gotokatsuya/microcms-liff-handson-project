@@ -9,8 +9,14 @@ import { User } from '~/types/line'
   namespaced: true
 })
 export default class LineStore extends VuexModule {
+  public initialized = false
   public accessToken = ''
   public user = {} as User
+
+  @Mutation
+  private setInitialized(initialized: boolean) {
+    this.initialized = initialized
+  }
 
   @Mutation
   private setAccessToken(accessToken: string) {
@@ -24,11 +30,13 @@ export default class LineStore extends VuexModule {
 
   @Action({ rawError: true })
   public async init() {
-    if (process.env.NODE_ENV === 'development') {
-      return
+    if (!this.initialized) {
+      await liff.init({ liffId: process.env.liffId! }, () => {
+        this.setInitialized(true)
+      }, (err: Error) => {
+        throw err
+      })
     }
-
-    await liff.init({ liffId: process.env.liffId! })
 
     const accessToken = await liff.getAccessToken()
     this.setAccessToken(accessToken!)
