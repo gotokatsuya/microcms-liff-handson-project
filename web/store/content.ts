@@ -16,11 +16,6 @@ export default class ContentStore extends VuexModule {
     this.contents = contents
   }
 
-  @Mutation
-  private addContent(content: Content) {
-    this.contents.push(content)
-  }
-
   @Action({ rawError: true })
   public async fetch() {
     const { data } = await $axios.get<Content[]>('/api/content')
@@ -29,7 +24,6 @@ export default class ContentStore extends VuexModule {
 
   @Action({ rawError: true })
   public async post(text: string) {
-    const { data } = await $axios.post<Content>('/api/content', { text })
-    this.addContent(data)
+    await $axios.post<Content>('/api/content', { text })
   }
 }

@@ -1,5 +1,6 @@
 export default {
   mode: 'spa',
+  loading: false,
   env: {
     liffId: '1654948312-x5a8mEVA'
   },

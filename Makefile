@@ -9,7 +9,7 @@ config:
 
 deploy: config
 	cd api && gcloud app deploy --quiet app.yaml
-	cd web && npm run build && gcloud app deploy --quiet app.yaml
+	cd web && npm install && npm run build && gcloud app deploy --quiet app.yaml
 	cd proxy && gcloud app deploy --quiet dispatch.yaml
 
 secret-encrypt:
