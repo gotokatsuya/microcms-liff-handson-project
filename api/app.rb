@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'sinatra/json'
 require 'line/bot'
+require './liff_profile'
+require './micro_cms'
 
 def client
   @client ||= Line::Bot::Client.new { |config|
@@ -40,35 +42,28 @@ end
 
 # コンテンツ一覧の取得
 get '/api/content' do
-  data = [
-    {
-      id: "1",
-      userName: "Katsuya Goto",
-      userPictureUrl: "Katsuya Goto",
-      text: "Hello, I am Katsuya Goto"
-    },
-    {
-      id: "2",
-      userName: "Katsuya Goto",
-      userPictureUrl: "Katsuya Goto",
-      text: "Hello, I am Katsuya Goto"
-    },
-    {
-      id: "3",
-      userName: "Katsuya Goto",
-      userPictureUrl: "Katsuya Goto",
-      text: "Hello, I am Katsuya Goto"
-    }
-  ]
+  data = MicroCms.new.get_contents(offset: params[:offset] || 0, limit: params[:limit] || 50)
   json data
 end
 
 post '/api/content' do
-  data = {
-    id: "1",
-    userName: "Katsuya Goto",
-    userPictureUrl: "Katsuya Goto",
-    text: "Hello, I am Katsuya Goto"
-  }
-  json data
+  autholization = request.env['HTTP_AUTHORIZATION']
+  access_token = Hash[*autholization.split(' ')]['Bearer']
+  user_info = LiffProfile.new(access_token).get_profile
+
+  id, error_message = MicroCms.new.create_content(user_name: user_info['displayName'], user_picture_url: user_info['pictureUrl'], text: params['text'])
+
+  if id
+    data = {
+      id: id,
+      userName: user_info['displayName'],
+      userPictureUrl: user_info['pictureUrl'],
+      text: params['text']
+    }
+    json data
+  else
+    data = { error_message: error_message }
+    status 400
+    json data
+  end
 end
