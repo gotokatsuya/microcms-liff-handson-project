@@ -15,8 +15,7 @@ services:
     working_dir: /api
     volumes:
       - ./api/:/api
-    environment: 
-      - RACK_ENV=development
+    env_file: ./api/.env.dev
     command: bash -c 'bundle install && bundle exec rackup -s Puma --host 0.0.0.0'
 
   web:

@@ -21,7 +21,8 @@ export default {
   plugins: [
     '@/plugins/composition-api',
     '@/plugins/axios-accessor',
-    '@/plugins/ant-design-vue'
+    '@/plugins/ant-design-vue',
+    '@/plugins/vconsole'
   ],
   axios: {
     proxy: true

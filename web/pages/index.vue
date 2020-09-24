@@ -8,14 +8,22 @@
         <a-list size="large" bordered :data-source="contents">
           <a-list-item slot="renderItem" slot-scope="item" class="Item">
             <a-list-item-meta class="Item Meta" :description="item.text">
-              <div slot="title">{{ item.userName }}</div>
+              <div slot="title">
+                {{ item.userName }}
+              </div>
               <a-avatar slot="avatar" :src="item.userPictureUrl" />
             </a-list-item-meta>
           </a-list-item>
         </a-list>
       </div>
       <div class="contents-foot-fixed">
-        <a-button type="primary" size="large" shape="circle" icon="plus" @click="toPostContent" />
+        <a-button
+          type="primary"
+          size="large"
+          shape="circle"
+          icon="plus"
+          @click="toPostContent"
+        />
       </div>
     </div>
   </div>

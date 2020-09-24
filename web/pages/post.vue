@@ -1,14 +1,16 @@
 <template>
   <div>
     <div class="post-content-head">
-      <a-button type="primary" :loading="loading" @click="postContent">投稿する</a-button>
+      <a-button type="primary" :loading="loading" @click="postContent">
+        投稿する
+      </a-button>
     </div>
     <div class="post-content-body">
       <div>
         <a-avatar slot="avatar" :src="user.pictureUrl" />
       </div>
       <a-textarea
-        style="margin-left: 12px;"
+        style="margin-left: 12px"
         placeholder="ハンズオンどうですか？"
         :rows="4"
         @change="onChangeText"
@@ -26,6 +28,7 @@
 .post-content-body {
   display: flex;
   padding: 16px;
+  padding-top: 0;
 }
 </style>
 
