@@ -14,8 +14,8 @@ export default class LineStore extends VuexModule {
   public user = {} as User
 
   @Mutation
-  private setInitialized(initialized: boolean) {
-    this.initialized = initialized
+  private setInitialized() {
+    this.initialized = true
   }
 
   @Mutation
@@ -29,17 +29,32 @@ export default class LineStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async init() {
-    if (!this.initialized) {
-      console.log('liff.init')
-      await liff.init({ liffId: process.env.liffId! })
-      console.log('setInitialized')
-      this.setInitialized(true)
+  private initLiff(liffId: string) {
+    console.log(liffId)
+    if (this.initialized) {
+      console.log('initLiff: initialized')
+      return Promise.resolve()
     }
+    console.log('liff.init')
+    return liff.init({ liffId })
+      .then(() => {
+        this.setInitialized()
+      })
+      .catch((err) => {
+        throw err
+      })
+  }
 
+  @Action({ rawError: true })
+  public async init() {
+    console.log('initLiff')
+    await this.initLiff(process.env.liffId!)
+
+    console.log('liff.getAccessToken')
     const accessToken = await liff.getAccessToken()
     this.setAccessToken(accessToken!)
 
+    console.log('liff.getProfile')
     const profile = await liff.getProfile()
     this.setUser({ pictureUrl: profile.pictureUrl!, name: profile.displayName! })
   }
