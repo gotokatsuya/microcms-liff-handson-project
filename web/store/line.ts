@@ -31,11 +31,10 @@ export default class LineStore extends VuexModule {
   @Action({ rawError: true })
   public async init() {
     if (!this.initialized) {
-      await liff.init({ liffId: process.env.liffId! }, () => {
-        this.setInitialized(true)
-      }, (err: Error) => {
-        throw err
-      })
+      console.log('liff.init')
+      await liff.init({ liffId: process.env.liffId! })
+      console.log('setInitialized')
+      this.setInitialized(true)
     }
 
     const accessToken = await liff.getAccessToken()
