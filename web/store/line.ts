@@ -38,9 +38,12 @@ export default class LineStore extends VuexModule {
     console.log('liff.init')
     return liff.init({ liffId })
       .then(() => {
+        console.log('liff.init success')
         this.setInitialized()
       })
       .catch((err) => {
+        console.log('liff.init error')
+        console.error(err)
         throw err
       })
   }
