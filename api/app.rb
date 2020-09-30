@@ -1,3 +1,4 @@
+require 'json'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'sinatra/json'
@@ -47,6 +48,8 @@ get '/api/content' do
 end
 
 post '/api/content' do
+  params = JSON.parse request.body.read
+
   autholization = request.env['HTTP_AUTHORIZATION']
   access_token = Hash[*autholization.split(' ')]['Bearer']
   user_info = LiffProfile.new(access_token).get_profile

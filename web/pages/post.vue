@@ -11,8 +11,10 @@
       </div>
       <a-textarea
         style="margin-left: 12px"
+        size="large"
         placeholder="ハンズオンどうですか？"
         :rows="4"
+        :max-length="140"
         @change="onChangeText"
       />
     </div>
@@ -60,8 +62,7 @@ export default defineComponent({
         await contentStore.post(state.text)
         ctx.root.$router.back()
       } catch (e) {
-        const errorMessage = e.message ? e.message : 'エラーが発生しました'
-        alert(errorMessage)
+        alert(e.message ? e.message : 'エラーが発生しました')
       } finally {
         state.loading = false
       }

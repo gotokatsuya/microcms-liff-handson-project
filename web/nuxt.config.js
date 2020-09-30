@@ -1,5 +1,5 @@
 export default {
-  mode: 'spa',
+  ssr: false,
   loading: false,
   env: {
     liffId: '1654948312-x5a8mEVA'
@@ -7,9 +7,7 @@ export default {
   head: {
     title: 'microcms-liff',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-      { hid: 'description', name: 'description', content: 'microcms-liff' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     ]
   },
   buildModules: [

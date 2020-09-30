@@ -8,6 +8,7 @@ let $axios: NuxtAxiosInstance
 export function initializeAxios(axiosInstance: NuxtAxiosInstance) {
   $axios = axiosInstance
   $axios.onRequest((config) => {
+    config.headers.Accept = 'application/json'
     config.headers['Content-Type'] = 'application/json'
     if (lineStore.accessToken) {
       config.headers.Authorization = `Bearer ${lineStore.accessToken}`

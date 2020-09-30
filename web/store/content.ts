@@ -11,9 +11,18 @@ import { Content } from '~/types/content'
 export default class ContentStore extends VuexModule {
   public contents = [] as Content[]
 
+  public get existsContents(): boolean {
+    return this.contents.length !== 0
+  }
+
   @Mutation
   private setContents(contents: Content[]) {
     this.contents = contents
+  }
+
+  @Mutation
+  private addContents(content: Content) {
+    this.contents.unshift(content)
   }
 
   @Action({ rawError: true })
@@ -24,6 +33,7 @@ export default class ContentStore extends VuexModule {
 
   @Action({ rawError: true })
   public async post(text: string) {
-    await $axios.post<Content>('/api/content', { text })
+    const { data } = await $axios.post<Content>('/api/content', { text })
+    this.addContents(data)
   }
 }

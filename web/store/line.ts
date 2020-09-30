@@ -29,36 +29,19 @@ export default class LineStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  private initLiff(liffId: string) {
-    console.log(liffId)
-    if (this.initialized) {
-      console.log('initLiff: initialized')
-      return Promise.resolve()
-    }
-    console.log('liff.init')
-    return liff.init({ liffId })
-      .then(() => {
-        console.log('liff.init success')
-        this.setInitialized()
-      })
-      .catch((err) => {
-        console.log('liff.init error')
-        console.error(err)
-        throw err
-      })
-  }
-
-  @Action({ rawError: true })
   public async init() {
-    console.log('initLiff')
-    await this.initLiff(process.env.liffId!)
+    if (this.initialized) {
+      return
+    }
 
-    console.log('liff.getAccessToken')
+    await liff.init({ liffId: process.env.liffId! })
+
     const accessToken = await liff.getAccessToken()
     this.setAccessToken(accessToken!)
 
-    console.log('liff.getProfile')
     const profile = await liff.getProfile()
     this.setUser({ pictureUrl: profile.pictureUrl!, name: profile.displayName! })
+
+    this.setInitialized()
   }
 }
