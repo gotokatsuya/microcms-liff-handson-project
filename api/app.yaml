@@ -7,6 +7,7 @@ entrypoint: bundle exec rackup -s Puma -p $PORT
 instance_class: F1
 
 automatic_scaling:
+  min_instances: 0
   min_idle_instances: automatic
   max_idle_instances: 1
   min_pending_latency: 3000ms
