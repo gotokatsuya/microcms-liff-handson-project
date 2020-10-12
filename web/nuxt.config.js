@@ -17,7 +17,6 @@ export default {
     '@nuxtjs/axios'
   ],
   plugins: [
-    '@/plugins/composition-api',
     '@/plugins/axios-accessor',
     '@/plugins/ant-design-vue',
     '@/plugins/vconsole'

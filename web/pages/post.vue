@@ -12,7 +12,7 @@
       <a-textarea
         style="margin-left: 12px"
         size="large"
-        placeholder="ハンズオンどうですか？"
+        placeholder="テキスト入力してください"
         :rows="4"
         :max-length="140"
         @change="onChangeText"
@@ -35,43 +35,44 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, toRefs, SetupContext } from '@vue/composition-api'
+
+import Vue from 'vue'
 import { lineStore, contentStore } from '~/store'
 
-export default defineComponent({
-  setup (props: {}, ctx: SetupContext) {
-    const state = reactive({
+export default Vue.extend({
+  data () {
+    return {
       loading: false,
       text: ''
-    })
-    const user = computed(() => lineStore.user)
-    const onChangeText = (e: any) => {
-      state.text = e.target.value
     }
-    const postContent = async () => {
-      if (state.text === '') {
+  },
+  computed: {
+    contents () {
+      return lineStore.user
+    }
+  },
+  methods: {
+    onChangeText (e: any) {
+      this.text = e.target.value
+    },
+    async postContent () {
+      if (this.text === '') {
         alert('テキストを入力してください')
         return
       }
-      if (state.text.length > 140) {
+      if (this.text.length > 140) {
         alert('140文字以上は入力できません')
         return
       }
       try {
-        state.loading = true
-        await contentStore.post(state.text)
-        ctx.root.$router.back()
+        this.loading = true
+        await contentStore.post(this.text)
+        this.$router.back()
       } catch (e) {
         alert(e.message ? e.message : 'エラーが発生しました')
       } finally {
-        state.loading = false
+        this.loading = false
       }
-    }
-    return {
-      ...toRefs(state),
-      user,
-      onChangeText,
-      postContent
     }
   }
 })
