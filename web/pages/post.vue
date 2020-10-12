@@ -47,7 +47,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    contents () {
+    user () {
       return lineStore.user
     }
   },
